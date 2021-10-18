@@ -1,5 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:gits_msib_tugas7/bin/artikel.dart';
+
+import '/bin/login.dart';
+import '/bin/search.dart';
+import '../bin/artikel.dart';
 
 class AppRoute {
   static const String artikelRoute = '/artikel';
@@ -11,10 +14,10 @@ class AppRoute {
       return const Artikel();
     },
     loginRoute: (BuildContext context) {
-      return const Artikel();
+      return const LoginPage();
     },
     searchRoute: (BuildContext context) {
-      return const Artikel();
+      return SearchPage();
     },
   };
 }
