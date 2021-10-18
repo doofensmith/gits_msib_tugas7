@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/bin/login.dart';
-import 'package:gits_msib_tugas7/bin/search.dart';
-import 'package:gits_msib_tugas7/widget/appbar.dart';
+import 'package:gits_msib_tugas7/models/post.dart';
+import 'package:gits_msib_tugas7/network/api_client.dart';
 
-class Artikel extends StatefulWidget {
+import 'login.dart';
+import 'search.dart';
+import '../widget/appbar.dart';
+
+class Artikel extends StatelessWidget {
   const Artikel({Key? key}) : super(key: key);
 
-  @override
-  _ArtikelState createState() => _ArtikelState();
-}
-
-class _ArtikelState extends State<Artikel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,28 +31,49 @@ class _ArtikelState extends State<Artikel> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            elevation: 2,
-            child: ListTile(
-              leading: Icon(
-                Icons.article_rounded,
-                color: Colors.teal[800],
-              ),
-              tileColor: const Color(0xFFFFFFFF),
-              title: const Text(
-                'Title',
-                style: TextStyle(color: Colors.teal),
-              ),
-              subtitle: const Text(
-                'Deskripsi',
-                style: TextStyle(color: Colors.teal),
-              ),
-              onTap: () {},
-            ),
-          );
+      body: FutureBuilder(
+        future: ApiClient().getPostData(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          //bool connect = snapshot.connectionState == ConnectionState.done;
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                Post? post = snapshot.data[index];
+                return Card(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  elevation: 2,
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.article_rounded,
+                      color: Colors.teal[800],
+                    ),
+                    tileColor: const Color(0xFFFFFFFF),
+                    title: Text(
+                      post!.title!.rendered.toString(),
+                      style: const TextStyle(
+                        color: Colors.teal,
+                      ),
+                    ),
+                    subtitle: Text(
+                      post.content!.rendered.toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.teal,
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(
