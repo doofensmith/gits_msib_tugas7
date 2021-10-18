@@ -39,6 +39,7 @@ class TestPage extends StatelessWidget {
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
+                Post? post = snapshot.data[index];
                 return Card(
                   margin:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -50,11 +51,11 @@ class TestPage extends StatelessWidget {
                     ),
                     tileColor: const Color(0xFFFFFFFF),
                     title: Text(
-                      '',
+                      post!.title!.rendered.toString(),
                       style: TextStyle(color: Colors.teal),
                     ),
                     subtitle: Text(
-                      '',
+                      post.content!.rendered.toString(),
                       style: TextStyle(color: Colors.teal),
                     ),
                     onTap: () {},
