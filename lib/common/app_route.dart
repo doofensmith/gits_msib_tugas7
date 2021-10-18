@@ -8,13 +8,13 @@ class AppRoute {
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     artikelRoute: (BuildContext context) {
-      return const Artikel();
+      return Artikel();
     },
     loginRoute: (BuildContext context) {
-      return const Artikel();
+      return Artikel();
     },
     searchRoute: (BuildContext context) {
-      return const Artikel();
+      return Artikel();
     },
   };
 }

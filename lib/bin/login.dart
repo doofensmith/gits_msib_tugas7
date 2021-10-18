@@ -1,9 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:gits_msib_tugas7/bin/artikel.dart';
+import 'package:gits_msib_tugas7/bin/buat_test.dart';
+import '../common/app_route.dart';
+import '../models/login.dart';
+import '../network/login_client.dart';
 
-import 'package:gits_msib_tugas7/widget/appbar.dart';
-import 'package:gits_msib_tugas7/widget/text_form_field.dart';
+import '../widget/appbar.dart';
+import '../widget/text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,8 +18,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late String username;
-  late String password;
+  late TextEditingController _controllerUsername;
+  late TextEditingController _controllerPassword;
+  @override
+  void initState() {
+    super.initState();
+    _controllerUsername = TextEditingController();
+    _controllerPassword = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +70,11 @@ class _LoginPageState extends State<LoginPage> {
                       bottom: 50,
                     ),
                   ),
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     labelText: 'Username',
                     hintText: 'ex : Maspion',
-                    icon: Icon(
+                    controller: _controllerUsername,
+                    icon: const Icon(
                       Icons.person_outline_rounded,
                       color: Colors.teal,
                     ),
@@ -71,10 +84,11 @@ class _LoginPageState extends State<LoginPage> {
                       bottom: 20,
                     ),
                   ),
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     labelText: 'Password',
+                    controller: _controllerPassword,
                     hintText: 'ex : Maspion',
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.lock,
                       color: Colors.teal,
                     ),
@@ -85,14 +99,25 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Oops! Something went wrong...',
-                          ),
-                        ),
+                    onPressed: () async {
+                      Login _login = await LoginClient.loginCheck(
+                        username: _controllerUsername.text,
+                        password: _controllerPassword.text,
                       );
+                      if (_login.code == null) {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return TestPage();
+                        }));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Oops! Something went wrong...',
+                            ),
+                          ),
+                        );
+                      }
                     },
                     child: const Text(
                       'Login',
