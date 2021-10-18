@@ -42,6 +42,18 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SearchPage(),
+            ),
+          );
+        },
+        backgroundColor: Colors.teal,
+        child: const Icon(Icons.search),
+      ),
     );
     /*ListView.builder(
                 itemBuilder: (BuildContext context, int index) {

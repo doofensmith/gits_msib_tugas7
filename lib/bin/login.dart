@@ -104,10 +104,13 @@ class _LoginPageState extends State<LoginPage> {
                         password: _controllerPassword.text,
                       );
                       if (_login.code == null) {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return Artikel();
-                        }));
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return Artikel();
+                            },
+                          ),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
