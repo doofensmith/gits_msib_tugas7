@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import 'package:gits_msib_tugas7/widget/appbar.dart';
 import 'package:gits_msib_tugas7/widget/text_form_field.dart';
 
@@ -12,6 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late String username;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +85,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: null,
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Oops! Something went wrong...',
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Login',
                       style: TextStyle(color: Colors.white),

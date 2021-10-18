@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {Key? key,
-      this.controller,
-      this.labelText,
-      this.hintText,
-      this.icon,
-      this.validator})
-      : super(key: key);
+  const CustomTextFormField({
+    Key? key,
+    this.controller,
+    this.labelText,
+    this.hintText,
+    this.icon,
+    this.validator,
+  }) : super(key: key);
 
   final TextEditingController? controller;
   final String? labelText;
