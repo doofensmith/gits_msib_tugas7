@@ -10,8 +10,8 @@ String postToJson(Post post) {
 
 class Post {
   int? id;
-  PostTitle? title;
-  PostContent? content;
+  Object? title;
+  Object? content;
 
   Post({
     this.id,
@@ -19,14 +19,18 @@ class Post {
     this.content,
   });
 
-  factory Post.fromJson(String str) => Post.fromMap(json.decode(str));
+  factory Post.fromJson(String str) {
+    return Post.fromMap(json.decode(str));
+  }
 
-  String toJson() => json.encode(toMap());
+  String toJson() {
+    return json.encode(toMap());
+  }
 
   factory Post.fromMap(Map<String, dynamic> json) => Post(
         id: json["id"],
-        title: PostTitle.fromJson(json["title"]),
-        content: PostContent.fromJson(json["content"]),
+        title: json["title"]["rendered"],
+        content: json["content"]["rendered"],
       );
 
   Map<String, dynamic> toMap() {
@@ -38,42 +42,42 @@ class Post {
   }
 }
 
-class PostTitle {
-  String? rendered;
+// class PostTitle {
+//   String? rendered;
 
-  PostTitle({
-    this.rendered,
-  });
+//   PostTitle({
+//     this.rendered,
+//   });
 
-  factory PostTitle.fromJson(Map<String, dynamic> json) {
-    return PostTitle(
-      rendered: json['rendered'],
-    );
-  }
+//   factory PostTitle.fromJson(Map<String, dynamic> json) {
+//     return PostTitle(
+//       rendered: json['rendered'],
+//     );
+//   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'rendered': rendered,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'rendered': rendered,
+//     };
+//   }
+// }
 
-class PostContent {
-  String? rendered;
+// class PostContent {
+//   String? rendered;
 
-  PostContent({
-    this.rendered,
-  });
+//   PostContent({
+//     this.rendered,
+//   });
 
-  factory PostContent.fromJson(Map<String, dynamic> json) {
-    return PostContent(
-      rendered: json['rendered'],
-    );
-  }
+//   factory PostContent.fromJson(Map<String, dynamic> json) {
+//     return PostContent(
+//       rendered: json['rendered'],
+//     );
+//   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'rendered': rendered,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'rendered': rendered,
+//     };
+//   }
+// }

@@ -9,8 +9,7 @@ class ApiClient {
   Future<Post> getPostData() async {
     Uri uri = Uri.parse(Constant.baseUrlPost);
     https.Response response = await https.get(uri);
-    var post = postFromJson(response.body);
-    return post;
+    return postFromJson(response.body);
   }
 
 // Future<List<Post>> getPostData() async {
