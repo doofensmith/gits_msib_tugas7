@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:gits_msib_tugas7/bin/artikel.dart';
-import 'package:gits_msib_tugas7/bin/buat_test.dart';
 import '../common/app_route.dart';
 import '../models/login.dart';
 import '../network/login_client.dart';
@@ -107,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (_login.code == null) {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return TestPage();
+                          return Artikel();
                         }));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
