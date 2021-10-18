@@ -19,14 +19,6 @@ class _ArtikelState extends State<Artikel> {
           'Flutter Article',
           style: TextStyle(color: Colors.white, fontSize: 24),
         ),
-        /*Stack(
-          children: <Widget>[
-            CustomContainer(
-              height: 35,
-              child: const TextSearch(),
-            ),
-          ],
-        ),*/
         actions: [
           IconButton(
             onPressed: () {
