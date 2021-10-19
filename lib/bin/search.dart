@@ -43,24 +43,22 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-        child: Expanded(
-          child: Column(
-            children: <Widget>[
-              CustomTextFormField(
-                controller: _searchController,
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.teal,
-                ),
-                labelText: 'Search',
-                onTap: _searchResult,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.search,
-                onEditingComplete: _searchResult,
+        child: Column(
+          children: <Widget>[
+            CustomTextFormField(
+              controller: _searchController,
+              icon: const Icon(
+                Icons.search,
+                color: Colors.teal,
               ),
-              _body(),
-            ],
-          ),
+              labelText: 'Search',
+              onTap: _searchResult,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.search,
+              onEditingComplete: _searchResult,
+            ),
+            _body(),
+          ],
         ),
       ),
     );
