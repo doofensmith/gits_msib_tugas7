@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:gits_msib_tugas7/bin/search_title.dart';
+import 'package:gits_msib_tugas7/models/search.dart';
+import 'package:gits_msib_tugas7/network/search_client.dart';
 import 'package:gits_msib_tugas7/widget/appbar.dart';
 import 'package:gits_msib_tugas7/widget/text_form_field.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key? key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final TextEditingController _searchController = TextEditingController();
+  SearchResult _search = SearchResult();
+  bool _onSearch = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,47 +44,42 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
         child: Column(
-          children: const <Widget>[
+          children: <Widget>[
             CustomTextFormField(
-              icon: Icon(
+              controller: _searchController,
+              icon: const Icon(
                 Icons.search,
                 color: Colors.teal,
               ),
               labelText: 'Search',
+              onTap: _searchResult,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.search,
+              onEditingComplete: _searchResult,
             ),
+            _body(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SearchPage(),
-            ),
-          );
-        },
-        backgroundColor: Colors.teal,
-        child: const Icon(Icons.search),
-      ),
     );
-    /*ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Icon(
-                      Icons.article_rounded,
-                      color: Colors.teal[800],
-                    ),
-                    tileColor: const Color(0xFFFFFFFF),
-                    title: const Text(
-                      'Title',
-                      style: TextStyle(color: Colors.teal),
-                    ),
-                    subtitle: const Text(
-                      'Deskripsi',
-                      style: TextStyle(color: Colors.teal),
-                    ),
-                    onTap: () {},
-                  );*/
+  }
+
+  Future<void> _searchResult() async {
+    setState(() => _onSearch = true);
+    _search = await SearchClient.getResponse(_searchController.text);
+    setState(() => _onSearch = false);
+  }
+
+  Widget _body() {
+    if (_onSearch) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return SearchContent(
+        query: _searchController.text,
+        searching: _search.search,
+      );
+    }
   }
 }

@@ -1,45 +1,76 @@
 import 'dart:convert';
 
-SearchResult searchResultFromJson(String str) =>
-    SearchResult.fromJson(json.decode(str));
+SearchResult searchResultFromJson(String str) {
+  return SearchResult.fromJson(json.decode(str));
+}
 
-String searchResultToJson(SearchResult data) => json.encode(data.toJson());
+String searchResultToJson(SearchResult data) {
+  return json.encode(data.toJson());
+}
 
 class SearchResult {
+  int? totalCount;
+  bool? incompleteResults;
+  List<Search> search;
+
   SearchResult({
+    this.totalCount = 0,
+    this.incompleteResults = false,
+    this.search = const <Search>[],
+  });
+
+  factory SearchResult.fromJson(Map<String, dynamic> json) {
+    return SearchResult(
+      totalCount: json["total_count"],
+      incompleteResults: json["incomplete_results"],
+      search: List<Search>.from(json["search"].map((x) => Search.fromJson(x))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      "total_count": totalCount,
+      "incomplete_results": incompleteResults,
+      "search": List<Search>.from(search.map((x) => x.toJson())),
+    };
+  }
+}
+
+class Search {
+  Search({
     this.id,
-    this.title,
-    this.url,
-    this.type,
-    this.subtype,
+    required this.title,
+    required this.url,
+    required this.type,
+    required this.subtype,
     this.links,
   });
 
   int? id;
-  String? title;
-  String? url;
-  String? type;
-  String? subtype;
+  String title;
+  String url;
+  String type;
+  String subtype;
   Links? links;
 
-  SearchResult copyWith({
+  Search copyWith({
     int? id,
-    String? title,
-    String? url,
-    String? type,
-    String? subtype,
+    required String title,
+    required String url,
+    required String type,
+    required String subtype,
     Links? links,
   }) =>
-      SearchResult(
+      Search(
         id: id ?? this.id,
-        title: title ?? this.title,
-        url: url ?? this.url,
-        type: type ?? this.type,
-        subtype: subtype ?? this.subtype,
+        title: '',
+        url: '',
+        type: '',
+        subtype: '',
         links: links ?? this.links,
       );
 
-  factory SearchResult.fromJson(Map<String, dynamic> json) => SearchResult(
+  factory Search.fromJson(Map<String, dynamic> json) => Search(
         id: json["id"],
         title: json["title"],
         url: json["url"],
