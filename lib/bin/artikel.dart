@@ -6,8 +6,19 @@ import 'login.dart';
 import 'search.dart';
 import '../widget/appbar.dart';
 
-class Artikel extends StatelessWidget {
+class Artikel extends StatefulWidget {
   const Artikel({Key? key}) : super(key: key);
+
+  @override
+  State<Artikel> createState() => _ArtikelState();
+}
+
+class _ArtikelState extends State<Artikel> {
+  final int _count = 10;
+  final List<Post> _listData = <Post>[];
+  final ScrollController _scrollController = ScrollController();
+  int _offset = 0;
+  Post? _post;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,7 @@ class Artikel extends StatelessWidget {
         ],
       ),
       body: FutureBuilder(
-        future: ApiClient().getPostData(),
+        future: ApiClient().getPostData(3, 10),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           //bool connect = snapshot.connectionState == ConnectionState.done;
           if (snapshot.hasData) {

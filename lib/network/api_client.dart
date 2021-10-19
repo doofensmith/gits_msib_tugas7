@@ -1,14 +1,15 @@
+import 'package:http/http.dart';
 import 'dart:convert';
-
-import 'package:http/http.dart' as https;
 
 import '../common/constant.dart';
 import '../models/post.dart';
 
 class ApiClient {
-  Future<List<Post>> getPostData() async {
-    Uri uri = Uri.parse(Constant.baseUrlPost);
-    https.Response response = await https.get(uri);
+  Future<List<Post>> getPostData(int page, int perPage) async {
+    Uri uri = Uri.parse(
+      '${Constant.baseUrlPost}?page=$page&per_page=$perPage',
+    );
+    Response response = await get(uri);
     return postFromJson(response.body).toList();
   }
 }
