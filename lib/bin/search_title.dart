@@ -31,6 +31,7 @@ class _SearchContentState extends State<SearchContent> {
       );
     }
     return ListView.builder(
+        shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           Search search = widget.searching[index];
           return Card(

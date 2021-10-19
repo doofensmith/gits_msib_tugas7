@@ -14,7 +14,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
-  SearchResult _search = SearchResult();
+  List<Search> _search = [];
   bool _onSearch = false;
 
   @override
@@ -43,22 +43,24 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-        child: Column(
-          children: <Widget>[
-            CustomTextFormField(
-              controller: _searchController,
-              icon: const Icon(
-                Icons.search,
-                color: Colors.teal,
+        child: Expanded(
+          child: Column(
+            children: <Widget>[
+              CustomTextFormField(
+                controller: _searchController,
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.teal,
+                ),
+                labelText: 'Search',
+                onTap: _searchResult,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.search,
+                onEditingComplete: _searchResult,
               ),
-              labelText: 'Search',
-              onTap: _searchResult,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.search,
-              onEditingComplete: _searchResult,
-            ),
-            _body(),
-          ],
+              _body(),
+            ],
+          ),
         ),
       ),
     );
@@ -78,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       return SearchContent(
         query: _searchController.text,
-        searching: _search.search,
+        searching: _search,
       );
     }
   }
