@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   CustomTextFormField(
                     labelText: 'Username',
-                    hintText: 'ex : Maspion',
+                    hintText: 'Username',
                     controller: _controllerUsername,
                     icon: const Icon(
                       Icons.person_outline_rounded,
@@ -85,8 +85,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   CustomTextFormField(
                     labelText: 'Password',
+                    isPassword: true,
                     controller: _controllerPassword,
-                    hintText: 'ex : Maspion',
+                    hintText: 'Password',
                     icon: const Icon(
                       Icons.lock,
                       color: Colors.teal,

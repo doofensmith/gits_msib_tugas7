@@ -4,6 +4,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     Key? key,
     this.controller,
+    this.isPassword = false,
     this.labelText,
     this.hintText,
     this.icon,
@@ -15,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController? controller;
+  final bool isPassword;
   final String? labelText;
   final String? hintText;
   final Icon? icon;
@@ -28,6 +30,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: isPassword,
       style: const TextStyle(color: Colors.teal),
       onTap: onTap,
       decoration: InputDecoration(
