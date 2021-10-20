@@ -43,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             CustomTextFormField(
               controller: _searchController,
@@ -57,7 +57,9 @@ class _SearchPageState extends State<SearchPage> {
               textInputAction: TextInputAction.search,
               onEditingComplete: _searchResult,
             ),
-            _body(),
+            Container(
+              child: _body(),
+            ),
           ],
         ),
       ),
