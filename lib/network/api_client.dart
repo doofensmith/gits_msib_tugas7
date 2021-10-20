@@ -5,7 +5,14 @@ import '../common/constant.dart';
 import '../models/post.dart';
 
 class ApiClient {
-  Future<List<Post>> getPostData(int page, int perPage) async {
+  int page;
+  int perPage;
+  ApiClient({
+    required this.page,
+    required this.perPage,
+  });
+
+  Future<List<Post>> getPostData() async {
     Uri uri = Uri.parse(
       '${Constant.baseUrlPost}?page=$page&per_page=$perPage',
     );

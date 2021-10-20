@@ -14,11 +14,32 @@ class Artikel extends StatefulWidget {
 }
 
 class _ArtikelState extends State<Artikel> {
-  final int _count = 10;
-  final List<Post> _listData = <Post>[];
+  List<Post> _listPost = <Post>[];
   final ScrollController _scrollController = ScrollController();
-  int _offset = 0;
-  Post? _post;
+  int _page = 1;
+  final int _perPage = 10;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _requestNewPost();
+    _scrollController.addListener(() {
+      double _pixels = _scrollController.position.pixels;
+      double _maxScroll = _scrollController.position.maxScrollExtent;
+      if (_pixels == _maxScroll) {
+        _page += 1;
+        _requestNewPost();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,47 +63,44 @@ class _ArtikelState extends State<Artikel> {
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: ApiClient().getPostData(3, 10),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          //bool connect = snapshot.connectionState == ConnectionState.done;
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                Post? post = snapshot.data[index];
-                return Card(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  elevation: 2,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.article_rounded,
-                      color: Colors.teal[800],
-                    ),
-                    tileColor: const Color(0xFFFFFFFF),
-                    title: Text(
-                      post!.title!.rendered.toString(),
-                      style: const TextStyle(
-                        color: Colors.teal,
-                      ),
-                    ),
-                    subtitle: Text(
-                      post.content!.rendered.toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.teal,
-                      ),
-                    ),
-                    onTap: () {},
-                  ),
-                );
-              },
+      body: ListView.builder(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
+        itemCount: _listPost.length,
+        itemBuilder: (BuildContext context, int index) {
+          Post? post = _listPost[index];
+          if (_listPost.length == index) {
+            return Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(16.0),
+              child: const CircularProgressIndicator(),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              elevation: 2,
+              child: ListTile(
+                leading: Icon(
+                  Icons.article_rounded,
+                  color: Colors.teal[800],
+                ),
+                tileColor: const Color(0xFFFFFFFF),
+                title: Text(
+                  post.title!.rendered.toString(),
+                  style: const TextStyle(
+                    color: Colors.teal,
+                  ),
+                ),
+                subtitle: Text(
+                  post.content!.rendered.toString(),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.teal,
+                  ),
+                ),
+                onTap: () {},
+              ),
             );
           }
         },
@@ -100,5 +118,20 @@ class _ArtikelState extends State<Artikel> {
         child: const Icon(Icons.search),
       ),
     );
+  }
+
+  Future<void> _requestNewPost() async {
+    _listPost = await ApiClient(page: _page, perPage: _perPage).getPostData();
+    if (_listPost.isNotEmpty) {
+      setState(() {});
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Oops! Something went wrong...',
+          ),
+        ),
+      );
+    }
   }
 }
