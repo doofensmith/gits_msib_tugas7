@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/models/search.dart';
+
+import '../models/search.dart';
 
 class SearchContent extends StatefulWidget {
   const SearchContent({

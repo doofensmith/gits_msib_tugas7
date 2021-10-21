@@ -1,11 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/bin/artikel.dart';
-import '../common/app_route.dart';
+import 'package:provider/provider.dart';
+
+import 'artikel.dart';
 import '../models/login.dart';
 import '../network/login_client.dart';
-
+import '../models/auth.dart';
+import '../provider/auth_provider.dart';
 import '../widget/appbar.dart';
 import '../widget/text_form_field.dart';
 
@@ -19,6 +19,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController _controllerUsername;
   late TextEditingController _controllerPassword;
+
+  Auth? auth;
   @override
   void initState() {
     super.initState();
@@ -98,37 +100,55 @@ class _LoginPageState extends State<LoginPage> {
                       bottom: 20,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      Login _login = await LoginClient.loginCheck(
-                        username: _controllerUsername.text,
-                        password: _controllerPassword.text,
+                  Consumer<AuthProvider>(
+                    builder: (
+                      BuildContext context,
+                      value,
+                      Widget? child,
+                    ) {
+                      return ElevatedButton(
+                        onPressed: () async {
+                          Login _login = await LoginClient.loginCheck(
+                            username: _controllerUsername.text,
+                            password: _controllerPassword.text,
+                          );
+                          if (_login.code == null) {
+                            value.addAuth(
+                              auth: Auth(
+                                token: _login.token!,
+                                userDisplayName: _login.userDisplayName!,
+                              ),
+                            );
+                            Navigator.of(context).pop(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return Artikel();
+                                },
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Oops! Something went wrong...',
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.teal,
+                          ),
+                        ),
                       );
-                      if (_login.code == null) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return Artikel();
-                            },
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Oops! Something went wrong...',
-                            ),
-                          ),
-                        );
-                      }
                     },
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.teal)),
                   ),
                 ],
               ),

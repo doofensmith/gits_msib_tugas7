@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gits_msib_tugas7/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: <SingleChildWidget>[
         ChangeNotifierProvider(
-          create: (BuildContext context) {},
+          create: (BuildContext context) {
+            return AuthProvider();
+          },
         ),
       ],
       child: MaterialApp(

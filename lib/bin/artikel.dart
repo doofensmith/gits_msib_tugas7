@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/models/post.dart';
-import 'package:gits_msib_tugas7/network/api_client.dart';
+import 'package:provider/provider.dart';
 
 import 'login.dart';
+import 'profile.dart';
 import 'search.dart';
 import '../widget/appbar.dart';
+import '../models/post.dart';
+import '../network/api_client.dart';
+import '../provider/auth_provider.dart';
 
 class Artikel extends StatefulWidget {
   const Artikel({Key? key}) : super(key: key);
@@ -50,16 +53,30 @@ class _ArtikelState extends State<Artikel> {
           style: TextStyle(color: Colors.white, fontSize: 24),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
-                ),
+          Consumer<AuthProvider>(
+            builder: (BuildContext context, value, Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  print(value.loginData?.token);
+                  if (value.loginData == null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Profile(),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.person_sharp, color: Colors.white),
               );
             },
-            icon: const Icon(Icons.person_sharp, color: Colors.white),
           ),
         ],
       ),
