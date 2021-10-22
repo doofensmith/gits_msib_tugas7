@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/bin/search_title.dart';
-import 'package:gits_msib_tugas7/models/search.dart';
-import 'package:gits_msib_tugas7/network/search_client.dart';
-import 'package:gits_msib_tugas7/widget/appbar.dart';
-import 'package:gits_msib_tugas7/widget/text_form_field.dart';
+
+import 'search_title.dart';
+import '../models/search.dart';
+import '../network/search_client.dart';
+import '../widget/appbar.dart';
+import '../widget/text_form_field.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

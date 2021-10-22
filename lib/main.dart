@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import 'provider/auth_provider.dart';
 import '/common/app_route.dart';
 
 void main() {

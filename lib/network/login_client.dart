@@ -1,6 +1,7 @@
-import 'package:gits_msib_tugas7/common/constant.dart';
-import 'package:gits_msib_tugas7/models/login.dart';
 import 'package:http/http.dart';
+
+import '../common/constant.dart';
+import '../models/login.dart';
 
 class LoginClient {
   static Future<Login> loginCheck({

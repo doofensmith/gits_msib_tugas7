@@ -1,6 +1,7 @@
-import 'package:gits_msib_tugas7/common/constant.dart';
-import 'package:gits_msib_tugas7/models/search.dart';
 import 'package:http/http.dart';
+
+import '../common/constant.dart';
+import '../models/search.dart';
 
 class SearchClient {
   static Future<List<Search>> getResponse(String query) async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gits_msib_tugas7/bin/artikel.dart';
 import 'package:provider/provider.dart';
 
+import 'artikel.dart';
 import '../provider/auth_provider.dart';
 
 class Profile extends StatelessWidget {
