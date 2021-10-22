@@ -13,4 +13,9 @@ class AuthProvider extends ChangeNotifier {
     this.auth = auth;
     notifyListeners();
   }
+
+  void removeAuth() {
+    this.auth = null;
+    notifyListeners();
+  }
 }
